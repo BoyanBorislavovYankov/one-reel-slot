@@ -1,6 +1,6 @@
 import { Container, Sprite } from 'pixi.js'
 
-import { ResourcesLoader } from '../../core/resourcesLoader/ResourcesLoared'
+import { ResourcesLoader } from '../../core/ResourcesLoader/ResourcesLoared'
 
 export class ReelView extends Container {
   protected _resourcesLoader: ResourcesLoader

@@ -1,5 +1,5 @@
 import { Container, Text, TextStyle } from 'pixi.js'
-import { ResourcesLoader } from '../../core/resourcesLoader/ResourcesLoared'
+import { ResourcesLoader } from '../../core/ResourcesLoader/ResourcesLoared'
 
 export class BalanceView extends Container {
   protected _resourcesLoader: ResourcesLoader
@@ -17,8 +17,6 @@ export class BalanceView extends Container {
     this._balanceText = this.createTextLabel()
     this._balanceText.y= 30
     
-    this.updateLastWin(0)
-    this.updateBalance(100)
     this.addChild(this._lastWinText, this._balanceText)
   }
 

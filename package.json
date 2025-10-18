@@ -9,7 +9,8 @@
     "lint": "eslint src --ext .ts"
   },
   "dependencies": {
-    "pixi.js": "^8.14.0"
+    "pixi.js": "^8.14.0",
+    "strict-event-emitter": "^0.5.1"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^8.46.1",

@@ -9,10 +9,10 @@ export type SettingsResponse = {
 export type BetResponse = {
   reelStopIndex: number
   balance: number
-  win: number
+  winAmount: number
 }
 
-// Todo: replace this math dummy with a socket connection to the backend
+// Todo: replace MathDummy with a websocket connection to the backend server
 export class MathDummy {
   protected static readonly REEL: ReelSymbol[] = [
     'SYM1', 'SYM5', 'SYM1', 'SYM3', 'SYM4', 'SYM3', 'SYM2', 'SYM4', 'SYM3', 'SYM6',
@@ -44,13 +44,13 @@ export class MathDummy {
   public bet(): BetResponse {
     this._balance -= this._bet
     const reelStopIndex = this.getRandomreelStopIndex()
-    const win = this.calculateWin(reelStopIndex)
-    this._balance += win
+    const winAmount = this.calculateWin(reelStopIndex)
+    this._balance += winAmount
 
     const response: BetResponse = {
       reelStopIndex,
       balance: this._balance,
-      win,
+      winAmount,
     }
     
     return response
