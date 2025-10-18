@@ -1,36 +1,34 @@
-import { Application, } from 'pixi.js'
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable no-unused-vars */
+import { Application } from 'pixi.js'
 
 import { MathDummy } from './mathDummy/MathDummy'
 import { ResourcesLoader } from './resourcesLoader/ResourcesLoared'
-import { Reel } from '../components/reel/Reel'
+import { ReelController } from '../components/reel/Reel.controller'
+import { UIController } from '../components/ui/UI.controller'
 
 export class App{
-  protected _app: Application
+  protected _PIXI: Application
+  protected _loader: ResourcesLoader | undefined
 
   constructor() {
-    this._app = new Application()
+    this._PIXI = new Application()
   }
 
   public async start(): Promise<void> {
     // eslint-disable-next-line no-undef
-    await this._app.init({ background: '#aabbff', resizeTo: window })
+    await this._PIXI.init({ background: '#054066ff', resizeTo: window })
 
     // eslint-disable-next-line no-undef
-    document.body.appendChild(this._app.canvas)
+    document.body.appendChild(this._PIXI.canvas)
 
-    const resourcesLoader = new ResourcesLoader({ mainResources: './assets/texture.json' })
-    
-    await resourcesLoader.load()
+    this._loader = new ResourcesLoader({ mainResources: './assets/texture.json' })
+    await this._loader.load()
 
     const math = new MathDummy()
-    // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
     const settingsResponse = math.settings()
-
-    const reel = new Reel(resourcesLoader)
-
-    this._app.stage.addChild(reel.container)
-
-    // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+    const reelController = new ReelController(this._PIXI, this._loader)
+    const uIController = new UIController(this._PIXI, this._loader)
     const betResponse = math.bet()
   }
 }
