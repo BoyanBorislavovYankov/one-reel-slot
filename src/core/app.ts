@@ -1,4 +1,6 @@
 import { Application, } from 'pixi.js'
+
+import { MathDummy } from './mathDummy/MathDummy'
 import { ResourcesLoader } from './resourcesLoader/ResourcesLoared'
 import { Reel } from '../components/reel/Reel'
 
@@ -11,7 +13,7 @@ export class App{
 
   public async start(): Promise<void> {
     // eslint-disable-next-line no-undef
-    await this._app.init({ background: '#1099bb', resizeTo: window })
+    await this._app.init({ background: '#aabbff', resizeTo: window })
 
     // eslint-disable-next-line no-undef
     document.body.appendChild(this._app.canvas)
@@ -20,8 +22,15 @@ export class App{
     
     await resourcesLoader.load()
 
+    const math = new MathDummy()
+    // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+    const settingsResponse = math.settings()
+
     const reel = new Reel(resourcesLoader)
 
     this._app.stage.addChild(reel.container)
+
+    // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+    const betResponse = math.bet()
   }
 }
