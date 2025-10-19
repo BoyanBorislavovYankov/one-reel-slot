@@ -1,4 +1,5 @@
 import { Container, Graphics, Sprite } from 'pixi.js'
+import { gsap } from 'gsap'
 
 import { ResourcesLoader } from '../../core/ResourcesLoader/ResourcesLoared'
 
@@ -6,6 +7,9 @@ import { REEL_CONFIG, ReelConfig } from './Reel.config'
 import { ReelSymbol } from './ReelSymbol.view'
 
 export class ReelView extends Container {
+  public static readonly REEL_STARTED = 'REEL_STARTED'
+  public static readonly REEL_STOPPED = 'REEL_STOPPED'
+
   protected _resourcesLoader: ResourcesLoader
   protected _config: ReelConfig
 
@@ -19,10 +23,21 @@ export class ReelView extends Container {
     this._config = REEL_CONFIG
 
     this.setPosition()
+  }
 
+  public addReelElements(): void {
     this.addReelBackground()
     this.addSymbolsMask()
     this.addSymbols()
+  }
+
+  public startRotation(): void {
+    console.error('start spin')
+    this.emit(ReelView.REEL_STARTED)
+
+    gsap.delayedCall(this._config.reelView.spinTime, () => {
+      this.emit(ReelView.REEL_STOPPED)
+    })
   }
 
   protected setPosition(): void{

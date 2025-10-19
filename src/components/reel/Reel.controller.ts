@@ -33,14 +33,24 @@ export class ReelController {
     EventBus.on(AppEventNames.BET_RECEIVED, () => {
       this.onBetReceived()
     })
+
+    this._reelView.on(ReelView.REEL_STARTED, this.onReelStarted, this)
+    this._reelView.on(ReelView.REEL_STOPPED, this.onReelStopped, this)
   }
 
   protected onGameReady(): void {
-    // Todo: add reel symbols
+    this._reelView.addReelElements()
   }
 
   protected onBetReceived(): void {
-    // Todo: spin the reels
+    this._reelView.startRotation()
+  }
+
+  protected onReelStarted(): void {
+    EventBus.emit(AppEventNames.REEL_SPIN_STARTED)
+  }
+
+  protected onReelStopped(): void {
     EventBus.emit(AppEventNames.REEL_SPIN_STOPPED)
   }
 }

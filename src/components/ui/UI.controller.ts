@@ -32,10 +32,6 @@ export class UIController {
     EventBus.on(AppEventNames.GAME_READY, () => {
       this.onGameReady()
     })
-
-    EventBus.on(AppEventNames.BET_RECEIVED, () => {
-      this.onBetReceived()
-    })
     
     EventBus.on(AppEventNames.REEL_SPIN_STOPPED, () => {
       this.onReelSpinStopped()
@@ -52,12 +48,10 @@ export class UIController {
     EventBus.emit(AppEventNames.SPIN_BUTTON_CLICKED)
   }
 
-  protected onBetReceived(): void {
+  protected onReelSpinStopped(): void {
     this._balanceView.updateBalance(this._gameStateManager.balance)
     this._balanceView.updateLastWin(this._gameStateManager.winAmount)
-  }
 
-  protected onReelSpinStopped(): void {
     const isBalanceEnoughForBet = this._gameStateManager.balance > 0
 
     this._spinButtonView.setActive(isBalanceEnoughForBet)

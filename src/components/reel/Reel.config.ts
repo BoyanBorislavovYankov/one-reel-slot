@@ -7,6 +7,7 @@ export const REEL_CONFIG = {
     symbolWidth: 128, 
     symbolHeight: 128, 
     reelPadding: { x: 6, y: 6 },
+    spinTime: 3,
   },
   reelSymbol: {}
 } as const

@@ -3,12 +3,15 @@
   "version": "0.0.1",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "npm run type-check & npm run vite-dev",
+    "vite-dev": "vite",
+    "type-check": "tsc --noEmit",
     "build": "vite build",
     "preview": "vite preview",
     "lint": "eslint src --ext .ts"
   },
   "dependencies": {
+    "gsap": "^3.13.0",
     "pixi.js": "^8.14.0",
     "strict-event-emitter": "^0.5.1"
   },
