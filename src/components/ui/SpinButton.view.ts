@@ -2,6 +2,8 @@ import { Container, Sprite } from 'pixi.js'
 
 import { ResourcesLoader } from '../../core/ResourcesLoader/ResourcesLoared'
 
+import { UI_CONFIG, UIConfig } from './UI.config'
+
 export class SpinButtonView extends Container {
   public static readonly BUTTON_CLICKED = 'BUTTON_CLICKED'
 
@@ -9,6 +11,8 @@ export class SpinButtonView extends Container {
   protected static readonly INACTIVE_TEXTURE = 'PLAY_DISABLED.png'
 
   protected _resourcesLoader: ResourcesLoader
+  protected _config: UIConfig
+
   protected _button: Sprite
   protected _isActive: boolean = true
 
@@ -16,6 +20,7 @@ export class SpinButtonView extends Container {
     super()
 
     this._resourcesLoader = resourcesLoader
+    this._config = UI_CONFIG
 
     this.setPosition()
 
@@ -35,7 +40,7 @@ export class SpinButtonView extends Container {
   }
 
   protected setPosition(): void{
-    this.position.set(25, 490)
+    this.position.set(this._config.spinButtonView.position.x, this._config.spinButtonView.position.y)
   }
 
   protected createSpinButton(): Sprite {

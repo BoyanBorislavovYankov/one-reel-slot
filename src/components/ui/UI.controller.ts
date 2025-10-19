@@ -1,13 +1,11 @@
 import { Application } from 'pixi.js'
 
-
 import { AppEventNames, EventBus } from '../../core/EventBus'
 import { GameStateManager } from '../../core/GameStateManager'
 import { ResourcesLoader } from '../../core/ResourcesLoader/ResourcesLoared'
 
 import { SpinButtonView } from './SpinButton.view'
 import { BalanceView } from './Balance.view'
-
 
 export class UIController {
   protected _PIXI: Application

@@ -19,6 +19,9 @@ export default [
       '@typescript-eslint': plugin,
     },
     rules: {
+      // Disable base rule, use TS version instead
+      'no-unused-vars': 'off',
+
       semi: ['error', 'never'],
       indent: ['error', 2],
       quotes: ['error', 'single'],

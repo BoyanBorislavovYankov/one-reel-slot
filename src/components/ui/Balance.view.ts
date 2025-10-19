@@ -1,8 +1,13 @@
-import { Container, Text, TextStyle } from 'pixi.js'
+import { Container, Text } from 'pixi.js'
+
 import { ResourcesLoader } from '../../core/ResourcesLoader/ResourcesLoared'
+
+import { UI_CONFIG, UIConfig } from './UI.config'
 
 export class BalanceView extends Container {
   protected _resourcesLoader: ResourcesLoader
+  protected _config: UIConfig
+
   protected _lastWinText: Text
   protected _balanceText: Text
 
@@ -10,13 +15,14 @@ export class BalanceView extends Container {
     super()
 
     this._resourcesLoader = resourcesLoader
+    this._config = UI_CONFIG
 
     this.setPosition()
 
     this._lastWinText = this.createTextLabel()
     this._balanceText = this.createTextLabel()
-    this._balanceText.y= 30
-    
+    this._balanceText.y= this._config.balanceView.balanceTextOffsetY
+
     this.addChild(this._lastWinText, this._balanceText)
   }
 
@@ -29,16 +35,13 @@ export class BalanceView extends Container {
   }
 
   protected setPosition(): void {
-    this.position.set(50, 430)
+    this.position.set(this._config.balanceView.position.x, this._config.balanceView.position.y)
   }
 
   protected createTextLabel(): Text {
-    const labelStyle = new TextStyle({
-      fontFamily: 'Arial',
-      fontSize: 24,
-      fill: 0xffffff,
+    return new Text({
+      text: '',
+      style: this._config.balanceView.textStyle,
     })
-
-    return new Text('', labelStyle)
   }
 }

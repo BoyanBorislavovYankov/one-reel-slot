@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable no-unused-vars */
 import { Application } from 'pixi.js'
 
 import { AppEventNames, EventBus } from './EventBus'
