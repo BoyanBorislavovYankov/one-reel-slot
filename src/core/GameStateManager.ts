@@ -59,6 +59,8 @@ export class GameStateManager {
 
   protected async onSpinButtonClicked(): Promise<void> {
     const betResponse: BetResponse = this._math.bet()
+    
+    console.error(betResponse)
 
     this._reelStopIndex = betResponse.reelStopIndex
     this._balance = betResponse.balance

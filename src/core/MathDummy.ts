@@ -10,6 +10,7 @@ export type BetResponse = {
   reelStopIndex: number
   balance: number
   winAmount: number
+  symbols: ReelSymbolName[]
 }
 
 // Todo: replace MathDummy with a websocket connection to the backend server
@@ -51,6 +52,7 @@ export class MathDummy {
       reelStopIndex,
       balance: this._balance,
       winAmount,
+      symbols: [MathDummy.REEL[reelStopIndex], MathDummy.REEL[reelStopIndex+1], MathDummy.REEL[reelStopIndex+2]]
     }
     
     return response

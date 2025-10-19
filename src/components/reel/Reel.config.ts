@@ -8,8 +8,8 @@ export const REEL_CONFIG = {
     symbolHeight: 128, 
     reelPadding: { x: 6, y: 6 },
     spinTime: 3,
+    reelRotationSpeed: 20,
   },
-  reelSymbol: {}
 } as const
 
 export type ReelConfig = typeof REEL_CONFIG
