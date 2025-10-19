@@ -1,4 +1,4 @@
-import { BetResponse, MathDummy, ReelSymbol, SettingsResponse } from './MathDummy'
+import { BetResponse, MathDummy, ReelSymbolName, SettingsResponse } from './MathDummy'
 import { AppEventNames, EventBus } from './EventBus'
 
 export class GameStateManager {
@@ -8,7 +8,7 @@ export class GameStateManager {
   protected _bet: number = 0
   protected _winAmount: number = 0
   protected _reelStopIndex = 0
-  protected _reel: ReelSymbol[] = []
+  protected _reel: ReelSymbolName[] = []
 
   constructor() {
     // Todo: replace MathDummy with a websocket connection to the backend server
@@ -27,8 +27,12 @@ export class GameStateManager {
     return this._winAmount
   }
 
-  get reel(): string[] {
-    return this.reel
+  get reel(): ReelSymbolName[] {
+    return this._reel
+  }
+
+  get reelStopIndex(): number {
+    return this._reelStopIndex
   }
 
   public async init(): Promise<void> {
@@ -41,6 +45,10 @@ export class GameStateManager {
     this.addListeners()
     
     EventBus.emit(AppEventNames.GAME_READY)
+  }
+
+  public isBalanceEnoughForBet(): boolean {
+    return this._balance >= this._bet
   }
 
   protected addListeners(): void {

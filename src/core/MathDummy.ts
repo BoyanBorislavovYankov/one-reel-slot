@@ -1,9 +1,9 @@
-export type ReelSymbol = 'SYM1' | 'SYM2' | 'SYM3' | 'SYM4' | 'SYM5' | 'SYM6'
+export type ReelSymbolName = 'SYM01' | 'SYM02' | 'SYM03' | 'SYM04' | 'SYM05' | 'SYM06'
 
 export type SettingsResponse = {
   balance: number
   bet: number
-  reel: ReelSymbol[]
+  reel: ReelSymbolName[]
 }
 
 export type BetResponse = {
@@ -14,18 +14,18 @@ export type BetResponse = {
 
 // Todo: replace MathDummy with a websocket connection to the backend server
 export class MathDummy {
-  protected static readonly REEL: ReelSymbol[] = [
-    'SYM1', 'SYM5', 'SYM1', 'SYM3', 'SYM4', 'SYM3', 'SYM2', 'SYM4', 'SYM3', 'SYM6',
-    'SYM3', 'SYM1', 'SYM6', 'SYM1', 'SYM2', 'SYM1', 'SYM2', 'SYM2', 'SYM2', 'SYM1',
-    'SYM2', 'SYM1', 'SYM4', 'SYM1', 'SYM3', 'SYM6', 'SYM1', 'SYM3', 'SYM2', 'SYM5',
-    'SYM3', 'SYM1', 'SYM2', 'SYM2', 'SYM2', 'SYM1', 'SYM4', 'SYM1', 'SYM4', 'SYM1',
-    'SYM3', 'SYM2', 'SYM4', 'SYM4', 'SYM5', 'SYM2', 'SYM3', 'SYM1', 'SYM1', 'SYM1',
-    'SYM4', 'SYM5', 'SYM2', 'SYM2', 'SYM2', 'SYM1', 'SYM5', 'SYM6', 'SYM1', 'SYM3',
-    'SYM4', 'SYM2', 'SYM5', 'SYM2', 'SYM1', 'SYM5', 'SYM1', 'SYM2', 'SYM1', 'SYM1',
-    'SYM1', 'SYM4', 'SYM4', 'SYM3', 'SYM3', 'SYM5', 'SYM5', 'SYM4', 'SYM2', 'SYM5',
-    'SYM2', 'SYM1', 'SYM3', 'SYM2', 'SYM3', 'SYM1', 'SYM4', 'SYM3', 'SYM4', 'SYM2',
-    'SYM3', 'SYM4', 'SYM1', 'SYM1', 'SYM1', 'SYM2', 'SYM6', 'SYM3', 'SYM2', 'SYM3',
-    'SYM1', 'SYM5'
+  static readonly REEL: ReelSymbolName[] = [
+    'SYM01', 'SYM05', 'SYM01', 'SYM03', 'SYM04', 'SYM03', 'SYM02', 'SYM04', 'SYM03', 'SYM06',
+    'SYM03', 'SYM01', 'SYM06', 'SYM01', 'SYM02', 'SYM01', 'SYM02', 'SYM02', 'SYM02', 'SYM01',
+    'SYM02', 'SYM01', 'SYM04', 'SYM01', 'SYM03', 'SYM06', 'SYM01', 'SYM03', 'SYM02', 'SYM05',
+    'SYM03', 'SYM01', 'SYM02', 'SYM02', 'SYM02', 'SYM01', 'SYM04', 'SYM01', 'SYM04', 'SYM01',
+    'SYM03', 'SYM02', 'SYM04', 'SYM04', 'SYM05', 'SYM02', 'SYM03', 'SYM01', 'SYM01', 'SYM01',
+    'SYM04', 'SYM05', 'SYM02', 'SYM02', 'SYM02', 'SYM01', 'SYM05', 'SYM06', 'SYM01', 'SYM03',
+    'SYM04', 'SYM02', 'SYM05', 'SYM02', 'SYM01', 'SYM05', 'SYM01', 'SYM02', 'SYM01', 'SYM01',
+    'SYM01', 'SYM04', 'SYM04', 'SYM03', 'SYM03', 'SYM05', 'SYM05', 'SYM04', 'SYM02', 'SYM05',
+    'SYM02', 'SYM01', 'SYM03', 'SYM02', 'SYM03', 'SYM01', 'SYM04', 'SYM03', 'SYM04', 'SYM02',
+    'SYM03', 'SYM04', 'SYM01', 'SYM01', 'SYM01', 'SYM02', 'SYM06', 'SYM03', 'SYM02', 'SYM03',
+    'SYM01', 'SYM05'
   ]
 
   protected _balance = 100

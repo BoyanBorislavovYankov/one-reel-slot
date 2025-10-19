@@ -2,7 +2,7 @@ import { Application } from 'pixi.js'
 
 import { AppEventNames, EventBus } from '../../core/EventBus'
 import { GameStateManager } from '../../core/GameStateManager'
-import { ResourcesLoader } from '../../core/ResourcesLoader/ResourcesLoared'
+import { ResourcesLoader } from '../../core/ResourcesLoared'
 
 import { ReelView } from './Reel.view'
 
@@ -30,6 +30,11 @@ export class ReelController {
       this.onGameReady()
     })
 
+    EventBus.on(AppEventNames.SPIN_BUTTON_CLICKED, () => {
+      this.onSpinButtonClicked()
+    })
+    
+
     EventBus.on(AppEventNames.BET_RECEIVED, () => {
       this.onBetReceived()
     })
@@ -39,11 +44,16 @@ export class ReelController {
   }
 
   protected onGameReady(): void {
+    this._reelView.reel = this._gameStateManager.reel
     this._reelView.addReelElements()
   }
 
-  protected onBetReceived(): void {
+  protected onSpinButtonClicked(): void {
     this._reelView.startRotation()
+  }
+
+  protected onBetReceived(): void {
+    this._reelView.reelStopIndex = this._gameStateManager.reelStopIndex
   }
 
   protected onReelStarted(): void {

@@ -4,7 +4,7 @@ import { Application } from 'pixi.js'
 import { AppEventNames, EventBus } from './EventBus'
 import { MathDummy } from './MathDummy'
 import { GameStateManager } from './GameStateManager'
-import { ResourcesLoader } from './ResourcesLoader/ResourcesLoared'
+import { ResourcesLoader } from './ResourcesLoared'
 import { ReelController } from '../components/reel/Reel.controller'
 import { UIController } from '../components/ui/UI.controller'
 

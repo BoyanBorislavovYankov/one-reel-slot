@@ -1,7 +1,8 @@
 import { Container, Graphics, Sprite } from 'pixi.js'
 import { gsap } from 'gsap'
 
-import { ResourcesLoader } from '../../core/ResourcesLoader/ResourcesLoared'
+import { ReelSymbolName } from '../../core/MathDummy'
+import { ResourcesLoader } from '../../core/ResourcesLoared'
 
 import { REEL_CONFIG, ReelConfig } from './Reel.config'
 import { ReelSymbol } from './ReelSymbol.view'
@@ -15,6 +16,9 @@ export class ReelView extends Container {
 
   protected _symbols: ReelSymbol[] = []
   protected _mask?: Graphics
+  protected _reel: ReelSymbolName[] = []
+  protected _reelStopIndex: number = 0
+  protected _reelCurrentRotation: number = 0
 
   constructor(resourcesLoader: ResourcesLoader) {
     super()
@@ -25,14 +29,23 @@ export class ReelView extends Container {
     this.setPosition()
   }
 
+  set reel(reel: ReelSymbolName[]) {
+    this._reel = reel
+  }
+
+  set reelStopIndex(reelStopIndex: number) {
+    // Todo: when integrating with a backend, extend the spin time until reelStopIndex is set
+    this._reelStopIndex = reelStopIndex
+  }
+
   public addReelElements(): void {
     this.addReelBackground()
     this.addSymbolsMask()
+    this.setRandomReelRotation()
     this.addSymbols()
   }
 
   public startRotation(): void {
-    console.error('start spin')
     this.emit(ReelView.REEL_STARTED)
 
     gsap.delayedCall(this._config.reelView.spinTime, () => {
@@ -67,14 +80,20 @@ export class ReelView extends Container {
     this.addChild(this._mask)
   }
 
+  protected setRandomReelRotation(): void {
+    this._reelCurrentRotation = Math.floor(Math.random() * this._reel.length)
+  }
+
   protected addSymbols(): void {
-    for (let i = -1; i < this._config.reelView.visibleSymbolsNumber; i++) {
+    for (let i = -1; i < this._config.reelView.visibleSymbolsNumber; i++) {      
+      const symbolReelIndex = (this._reelCurrentRotation + i) % this._reel.length
+      const symbolName = this._reel[symbolReelIndex]
       const resources = this._resourcesLoader.loadedResources
-      const texture = resources.mainResources.textures['SYM01.png']
+      const texture = resources.mainResources.textures[`${symbolName}.png`]
       const symbol = new ReelSymbol(texture)
 
       symbol.reelPosition = i
-      symbol.reelIndex = 0
+      symbol.reelIndex = symbolReelIndex
       
       if (this._mask) {
         symbol.mask = this._mask

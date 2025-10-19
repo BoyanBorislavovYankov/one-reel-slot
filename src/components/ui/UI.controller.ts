@@ -2,7 +2,7 @@ import { Application } from 'pixi.js'
 
 import { AppEventNames, EventBus } from '../../core/EventBus'
 import { GameStateManager } from '../../core/GameStateManager'
-import { ResourcesLoader } from '../../core/ResourcesLoader/ResourcesLoared'
+import { ResourcesLoader } from '../../core/ResourcesLoared'
 
 import { SpinButtonView } from './SpinButton.view'
 import { BalanceView } from './Balance.view'
@@ -42,6 +42,8 @@ export class UIController {
 
   protected onGameReady(): void {
     this._balanceView.updateBalance(this._gameStateManager.balance)
+    
+    this._spinButtonView.setActive(this._gameStateManager.isBalanceEnoughForBet())
   }
 
   protected onSpinButtonClicked(): void {
@@ -52,8 +54,6 @@ export class UIController {
     this._balanceView.updateBalance(this._gameStateManager.balance)
     this._balanceView.updateLastWin(this._gameStateManager.winAmount)
 
-    const isBalanceEnoughForBet = this._gameStateManager.balance > 0
-
-    this._spinButtonView.setActive(isBalanceEnoughForBet)
+    this._spinButtonView.setActive(this._gameStateManager.isBalanceEnoughForBet())
   }
 }
