@@ -48,7 +48,8 @@ export class ReelView extends Container {
   public startRotation(): void {
     this.emit(ReelView.REEL_STARTED)
 
-    // Todo: show the correct symbol as the end of the timeline
+    let isRotationStopping = false
+
     // Todo: start and stop the timeline smoothly
     const timeline = gsap.to(this._symbols, {
       ease: 'none',
@@ -56,12 +57,8 @@ export class ReelView extends Container {
       onUpdate: () => {
         let shouldChangeSymbol = false
 
-        if (timeline.totalTime() > this._config.reelView.spinTime) {
-          
-          timeline.kill()
-          this.onReelStopped()
-
-          return
+        if (timeline.totalTime() > this._config.reelView.minimumSpinTime) {
+          isRotationStopping = true
         }
 
         // move symbols down
@@ -99,6 +96,24 @@ export class ReelView extends Container {
               symbol.reelPosition += 1
             }
           }
+        }
+
+        const firstSymbol = this._symbols.find(s => s.reelPosition === 2)
+        const hasReachedStopIndex = firstSymbol?.reelIndex === this._reelStopIndex
+
+        // stop the rotation when the target index has been reached
+        if (isRotationStopping && shouldChangeSymbol && hasReachedStopIndex) {
+          timeline.kill()
+
+          for (let i = 0; i < this._symbols.length; i++) {
+            const symbol = this._symbols[i]
+            
+            this.positionSymbol(symbol)
+          }
+
+          this.onReelStopped()
+
+          return
         }
       },
     })

@@ -60,7 +60,8 @@ export class GameStateManager {
   protected async onSpinButtonClicked(): Promise<void> {
     const betResponse: BetResponse = this._math.bet()
     
-    console.error(betResponse)
+    // eslint-disable-next-line no-undef
+    console.log(betResponse)
 
     this._reelStopIndex = betResponse.reelStopIndex
     this._balance = betResponse.balance
