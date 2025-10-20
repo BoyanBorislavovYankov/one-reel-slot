@@ -2,7 +2,7 @@
 import { Application } from 'pixi.js'
 
 import { GameStateManager } from './GameStateManager'
-import { ResourcesLoader } from './ResourcesLoared'
+import { ResourcesLoader } from './ResourcesLoader'
 
 import { ReelController } from '../components/reel/Reel.controller'
 import { UIController } from '../components/ui/UI.controller'

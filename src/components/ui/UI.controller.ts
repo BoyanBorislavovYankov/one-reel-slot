@@ -2,7 +2,7 @@ import { Application } from 'pixi.js'
 
 import { AppEventNames, EventBus } from '../../core/EventBus'
 import { GameStateManager } from '../../core/GameStateManager'
-import { ResourcesLoader } from '../../core/ResourcesLoared'
+import { ResourcesLoader } from '../../core/ResourcesLoader'
 
 import { SpinButtonView } from './SpinButton.view'
 import { BalanceView } from './Balance.view'

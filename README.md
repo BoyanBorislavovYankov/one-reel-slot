@@ -18,7 +18,7 @@ npm run dev
 - Dummy math engine simulating bets and results (logged in the browser)
 - Simple UI and event-driven game flow  
 - One spinning reel with animated symbols
-- Asset loader
+- Simplistic asset loader, which supports spritesheets
 - Mobile portrait HD layout - 360x800 px
 
 ---

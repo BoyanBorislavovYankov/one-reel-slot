@@ -44,15 +44,19 @@ export class MathDummy {
 
   public bet(): BetResponse {
     this._balance -= this._bet
+
     const reelStopIndex = this.getRandomreelStopIndex()
-    const winAmount = this.calculateWin(reelStopIndex)
+    const secondSymbolIndex = (reelStopIndex + 1) % MathDummy.REEL.length
+    const thirdSymbolIndex = (reelStopIndex + 2) % MathDummy.REEL.length
+    const winAmount = this.calculateWin(reelStopIndex, secondSymbolIndex, thirdSymbolIndex)
+    
     this._balance += winAmount
 
     const response: BetResponse = {
       reelStopIndex,
       balance: this._balance,
       winAmount,
-      symbols: [MathDummy.REEL[reelStopIndex], MathDummy.REEL[reelStopIndex+1], MathDummy.REEL[reelStopIndex+2]]
+      symbols: [MathDummy.REEL[reelStopIndex], MathDummy.REEL[secondSymbolIndex], MathDummy.REEL[thirdSymbolIndex]]
     }
     
     return response
@@ -62,8 +66,8 @@ export class MathDummy {
     return Math.floor(Math.random() * MathDummy.REEL.length)
   }
 
-  protected calculateWin(reelStopIndex: number): number {
-    const reelSymbols = [MathDummy.REEL[reelStopIndex] , MathDummy.REEL[reelStopIndex + 1], MathDummy.REEL[reelStopIndex + 3]]
+  protected calculateWin(firstSymbolIndex: number, secondSymbolIndex: number, thirdSymbolIndex: number): number {
+    const reelSymbols = [MathDummy.REEL[firstSymbolIndex] , MathDummy.REEL[secondSymbolIndex], MathDummy.REEL[thirdSymbolIndex]]
 
     // 3 of a kind
     if (reelSymbols[0] === reelSymbols[1] && reelSymbols[1] === reelSymbols[2]) {

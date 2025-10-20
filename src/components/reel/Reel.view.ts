@@ -2,7 +2,7 @@ import { Container, Graphics, Sprite } from 'pixi.js'
 import { gsap } from 'gsap'
 
 import { ReelSymbolName } from '../../core/MathDummy'
-import { ResourcesLoader } from '../../core/ResourcesLoared'
+import { ResourcesLoader } from '../../core/ResourcesLoader'
 
 import { REEL_CONFIG, ReelConfig } from './Reel.config'
 import { ReelSymbol } from './ReelSymbol.view'
@@ -80,7 +80,10 @@ export class ReelView extends Container {
           const symbol = this._symbols[i]
 
           if (isRotationStopping) {
-            reelDeceleration += this._config.reelDecelerationWhenStopping
+            // calculate deceleration of the reel independantly of the FPS 
+            const delta = gsap.ticker.deltaRatio()
+
+            reelDeceleration += this._config.reelDecelerationWhenStopping * delta
           }
 
           // decelerate the reel rotation speed when the reel stops
@@ -212,7 +215,7 @@ export class ReelView extends Container {
   }
 
   protected getReelIndexByReelPosition(reelPosition: number): number {
-    let symbolReelIndex = this._reelCurrentRotation - reelPosition
+    let symbolReelIndex = (this._reelCurrentRotation + reelPosition) % this._reel.length
 
     // if more than reel length, start over from 0
     symbolReelIndex = symbolReelIndex % this._reel.length

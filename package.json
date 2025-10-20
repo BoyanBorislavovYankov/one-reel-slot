@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "type": "module",
   "scripts": {
-    "dev": "npm run type-check & npm run vite-dev",
+    "dev": "npm run type-check && npm run vite-dev",
     "vite-dev": "vite",
     "type-check": "tsc --noEmit",
     "build": "vite build",

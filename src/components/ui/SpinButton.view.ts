@@ -1,6 +1,6 @@
 import { Container, Sprite } from 'pixi.js'
 
-import { ResourcesLoader } from '../../core/ResourcesLoared'
+import { ResourcesLoader } from '../../core/ResourcesLoader'
 
 import { UI_CONFIG, UIConfig } from './UI.config'
 
