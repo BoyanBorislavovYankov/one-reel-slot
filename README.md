@@ -6,6 +6,7 @@ This project demonstrates the core logic of a slot machine, including dummy math
 ## Run the development server:
 
 ```
+nvm use 20
 npm i
 npm run dev
 ```
@@ -14,9 +15,10 @@ npm run dev
 
 ## Features
 
-- Dummy math engine simulating bets and results  
+- Dummy math engine simulating bets and results (logged in the browser)
 - Simple UI and event-driven game flow  
 - One spinning reel with animated symbols
+- Asset loader
 - Mobile portrait HD layout - 360x800 px
 
 ---
@@ -24,7 +26,7 @@ npm run dev
 ## Tech Stack
 
 - **PixiJS** – for rendering and game loop  
-- **GSAP** – for animation handling  
+- **GSAP** – for timelines and animation handling  
 - **TypeScript** – for type-safe development  
 - **Vite** – for build and dev server  
 - **ESLint** – for code linting and consistency  

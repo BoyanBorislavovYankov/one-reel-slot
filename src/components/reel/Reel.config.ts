@@ -7,6 +7,8 @@ export const REEL_CONFIG = {
   reelPadding: { x: 6, y: 6 },
   minimumSpinTime: 3,
   reelRotationSpeed: 50,
+  minimumRotationSpeed: 10,
+  reelDecelerationWhenStopping: 0.5,
 } as const
 
 export type ReelConfig = typeof REEL_CONFIG

@@ -58,8 +58,8 @@ export class ReelView extends Container {
     this._isRotating = true
 
     let isRotationStopping = false
+    let reelDeceleration = 0
 
-    // Todo: start and stop the timeline smoothly
     const timeline = gsap.to(this._symbols, {
       ease: 'none',
       repeat: -1,
@@ -79,7 +79,14 @@ export class ReelView extends Container {
         for (let i = 0; i < this._symbols.length; i++) {
           const symbol = this._symbols[i]
 
-          symbol.y += this._config.reelRotationSpeed
+          if (isRotationStopping) {
+            reelDeceleration += this._config.reelDecelerationWhenStopping
+          }
+
+          // decelerate the reel rotation speed when the reel stops
+          const reelRotationSpeed = Math.max(this._config.reelRotationSpeed - reelDeceleration, this._config.minimumRotationSpeed)
+
+          symbol.y += reelRotationSpeed
 
           if (symbol.y >= this._config.symbolHeight * this._config.visibleSymbolsNumber) {
             shouldChangeSymbol = true
