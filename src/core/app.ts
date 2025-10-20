@@ -1,14 +1,16 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+ 
 import { Application } from 'pixi.js'
 
-import { AppEventNames, EventBus } from './EventBus'
-import { MathDummy } from './MathDummy'
 import { GameStateManager } from './GameStateManager'
 import { ResourcesLoader } from './ResourcesLoared'
+
 import { ReelController } from '../components/reel/Reel.controller'
 import { UIController } from '../components/ui/UI.controller'
 
 export class App{
+  static readonly GAME_WIDTH = 360
+  static readonly GAME_HEIGHT = 800
+
   protected _PIXI: Application
   protected _loader?: ResourcesLoader
   protected _gameStateManager: GameStateManager
@@ -19,8 +21,11 @@ export class App{
   }
 
   public async start(): Promise<void> {
-    // eslint-disable-next-line no-undef
-    await this._PIXI.init({ background: '#054066ff', resizeTo: window })
+    await this._PIXI.init({
+      background: '#054066ff',
+      width: App.GAME_WIDTH,
+      height: App.GAME_HEIGHT,
+    })
 
     // eslint-disable-next-line no-undef
     document.body.appendChild(this._PIXI.canvas)
@@ -32,19 +37,5 @@ export class App{
     new ReelController(this._PIXI, this._loader, this._gameStateManager)
 
     await this._gameStateManager.init()
-    /*
-
-    EventBus.on(AppEventNames.SPIN_BUTTON_CLICKED, () => {
-      this.onSpinButtonClicked()
-    })
-      */
   }
-
-  /*
-  protected onSpinButtonClicked(): void {
-    const betResponse = math.bet()
-
-    console.log(betResponse)
-  }
-  */
 }

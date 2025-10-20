@@ -1,5 +1,5 @@
 export const REEL_CONFIG = {
-  position: { x: 50, y: 20 },
+  position: { x: 110, y: 30 },
   backgroundTexture: 'REEL.png',
   visibleSymbolsNumber: 3,
   symbolWidth: 128, 

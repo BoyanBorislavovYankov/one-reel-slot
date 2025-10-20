@@ -1,9 +1,9 @@
 export const UI_CONFIG = {
   spinButtonView: {
-    position: { x: 25, y: 490 },
+    position: { x: 87, y: 520 },
   },
   balanceView: {
-    position: { x: 50, y: 430 },
+    position: { x: 110, y: 460 },
     balanceTextOffsetY: 30,
     textStyle: {
       fontFamily: 'Arial',
