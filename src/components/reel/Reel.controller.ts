@@ -33,10 +33,13 @@ export class ReelController {
     EventBus.on(AppEventNames.SPIN_BUTTON_CLICKED, () => {
       this.onSpinButtonClicked()
     })
-    
 
     EventBus.on(AppEventNames.BET_RECEIVED, () => {
       this.onBetReceived()
+    })
+
+    EventBus.on(AppEventNames.FORCE_STOP_CLICKED, () => {
+      this.onForceStopClicked()
     })
 
     this._reelView.on(ReelView.REEL_STARTED, this.onReelStarted, this)
@@ -50,6 +53,10 @@ export class ReelController {
 
   protected onSpinButtonClicked(): void {
     this._reelView.startRotation()
+  }
+
+  protected onForceStopClicked(): void {
+    this._reelView.forceStop()
   }
 
   protected onBetReceived(): void {

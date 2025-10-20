@@ -19,6 +19,8 @@ export class ReelView extends Container {
   protected _reel: ReelSymbolName[] = []
   protected _reelStopIndex: number = 0
   protected _reelCurrentRotation: number = 0
+  protected _isRotating: boolean = false
+  protected _isForcedToStop: boolean = false
 
   constructor(resourcesLoader: ResourcesLoader) {
     super()
@@ -27,6 +29,10 @@ export class ReelView extends Container {
     this._config = REEL_CONFIG
 
     this.setPosition()
+  }
+
+  get isRotating(): boolean {
+    return this._isRotating
   }
 
   set reel(reel: ReelSymbolName[]) {
@@ -48,6 +54,9 @@ export class ReelView extends Container {
   public startRotation(): void {
     this.emit(ReelView.REEL_STARTED)
 
+    this._isForcedToStop = false
+    this._isRotating = true
+
     let isRotationStopping = false
 
     // Todo: start and stop the timeline smoothly
@@ -57,17 +66,22 @@ export class ReelView extends Container {
       onUpdate: () => {
         let shouldChangeSymbol = false
 
-        if (timeline.totalTime() > this._config.reelView.minimumSpinTime) {
+        // rotation time has been reached or the reel is forced to stop
+        const hasTimeElapsed = timeline.totalTime() > this._config.minimumSpinTime
+        if ((hasTimeElapsed || this._isForcedToStop) && !isRotationStopping) {
           isRotationStopping = true
+
+          // move reel fast forward - either to match rotation time or to force stop
+          this._reelCurrentRotation = this._reelStopIndex - this._config.visibleSymbolsNumber
         }
 
         // move symbols down
         for (let i = 0; i < this._symbols.length; i++) {
           const symbol = this._symbols[i]
 
-          symbol.y += this._config.reelView.reelRotationSpeed
+          symbol.y += this._config.reelRotationSpeed
 
-          if (symbol.y >= this._config.reelView.symbolHeight * 3) {
+          if (symbol.y >= this._config.symbolHeight * this._config.visibleSymbolsNumber) {
             shouldChangeSymbol = true
           }
         }
@@ -80,11 +94,11 @@ export class ReelView extends Container {
           // update the symbols so that the bottom one moves to the top
           for (let i = 0; i < this._symbols.length; i++) {
             const symbol = this._symbols[i]
-            const isLastSymbol = symbol.reelPosition === this._config.reelView.visibleSymbolsNumber - 1
+            const isLastSymbol = symbol.reelPosition === this._config.visibleSymbolsNumber - 1
 
             if (isLastSymbol) {
               symbol.reelPosition = -1
-              symbol.y -= this._config.reelView.symbolHeight * (this._config.reelView.visibleSymbolsNumber + 1)
+              symbol.y -= this._config.symbolHeight * (this._config.visibleSymbolsNumber + 1)
               symbol.reelIndex = this.getReelIndexByReelPosition(symbol.reelPosition)
               
               const symbolName = this._reel[symbol.reelIndex]
@@ -98,7 +112,7 @@ export class ReelView extends Container {
           }
         }
 
-        const firstSymbol = this._symbols.find(s => s.reelPosition === 2)
+        const firstSymbol = this._symbols.find(s => s.reelPosition === this._config.visibleSymbolsNumber - 1)
         const hasReachedStopIndex = firstSymbol?.reelIndex === this._reelStopIndex
 
         // stop the rotation when the target index has been reached
@@ -119,14 +133,18 @@ export class ReelView extends Container {
     })
   }
 
+  public forceStop(): void {
+    this._isForcedToStop = true
+  }
+
   protected animateNextSymbol(): void {
     this._symbols.forEach(symbol => {
-      const isLastSymbol = symbol.reelPosition === this._config.reelView.visibleSymbolsNumber - 1
+      const isLastSymbol = symbol.reelPosition === this._config.visibleSymbolsNumber - 1
 
       // move the last symbol first, as it is not visible anymore
       if (isLastSymbol) {
         symbol.reelPosition = -1
-        symbol.y -= this._config.reelView.symbolHeight * (this._config.reelView.visibleSymbolsNumber + 1)
+        symbol.y -= this._config.symbolHeight * (this._config.visibleSymbolsNumber + 1)
       } else {
         symbol.reelPosition += 1
       }
@@ -134,12 +152,12 @@ export class ReelView extends Container {
   }
 
   protected setPosition(): void{
-    this.position.set(this._config.reelView.position.x, this._config.reelView.position.y)
+    this.position.set(this._config.position.x, this._config.position.y)
   }
 
   protected addReelBackground(): void {
     const resources = this._resourcesLoader.loadedResources
-    const textureName = this._config.reelView.backgroundTexture
+    const textureName = this._config.backgroundTexture
     const texture = resources.mainResources.textures[textureName]
     const background = new Sprite(texture)
 
@@ -147,10 +165,10 @@ export class ReelView extends Container {
   }
     
   protected addSymbolsMask(): void {
-    const x = this._config.reelView.reelPadding.x
-    const y = this._config.reelView.reelPadding.y
-    const width = this._config.reelView.symbolWidth
-    const height = this._config.reelView.symbolHeight * this._config.reelView.visibleSymbolsNumber
+    const x = this._config.reelPadding.x
+    const y = this._config.reelPadding.y
+    const width = this._config.symbolWidth
+    const height = this._config.symbolHeight * this._config.visibleSymbolsNumber
 
     this._mask = new Graphics()
     this._mask.beginFill(0xff0000)
@@ -165,7 +183,7 @@ export class ReelView extends Container {
   }
 
   protected addSymbols(): void {
-    for (let i = -1; i < this._config.reelView.visibleSymbolsNumber; i++) {
+    for (let i = -1; i < this._config.visibleSymbolsNumber; i++) {
       const reelPosition = i
       const symbolReelIndex = this.getReelIndexByReelPosition(reelPosition)
       const symbolName = this._reel[symbolReelIndex]
@@ -201,13 +219,16 @@ export class ReelView extends Container {
   }
 
   protected positionSymbol(symbol: ReelSymbol): void {
-    const x = this._config.reelView.reelPadding.x
-    const y = symbol.reelPosition * this._config.reelView.symbolHeight + this._config.reelView.reelPadding.y
+    const x = this._config.reelPadding.x
+    const y = symbol.reelPosition * this._config.symbolHeight + this._config.reelPadding.y
 
     symbol.position.set(x, y)
   }
 
   protected onReelStopped(): void {
+    this._isRotating = false
+    this._isForcedToStop = false
+
     this.emit(ReelView.REEL_STOPPED)
   }
 }
